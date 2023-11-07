@@ -6,6 +6,22 @@ const checkName = (req, res, next) => {
     }
 };
 
+const checkOrigin = (req, res, next) => {
+    if (req.body.origin) {
+        return next();
+    } else {
+        res.status(400).json({ error: "Origin is required" });
+    }
+};
+
+const checkRoast = (req, res, next) => {
+    if (req.body.roast) {
+        return next();
+    } else {
+        res.status(400).json({ error: "Roast is required" });
+    }
+};
+
 const checkBoolean = (req, res, next) => {
     const fav = req.body.is_favorite
     if (typeof fav === 'boolean') {
@@ -15,4 +31,4 @@ const checkBoolean = (req, res, next) => {
     }
 };
 
-module.exports = { checkName, checkBoolean };
+module.exports = { checkName, checkOrigin, checkRoast, checkBoolean };

@@ -1,7 +1,7 @@
 const express = require("express");
 const coffees = express.Router();
 const { getAllCoffees, getCoffee, createCoffee, deleteCoffee, updateCoffee } = require("../queries/coffee.js");
-const { checkName, checkBoolean } = require("../validations/checkCoffee.js")
+const { checkName, checkOrigin, checkRoast, checkBoolean } = require("../validations/checkCoffee.js")
 
 coffees.get("/", async (req, res) => {
   const allcoffees = await getAllCoffees();
@@ -22,7 +22,7 @@ coffees.get("/:id", async (req, res) => {
   }
 });
 
-coffees.post("/", checkName, checkBoolean, async (req, res) => {
+coffees.post("/", checkName, checkOrigin, checkRoast, checkBoolean, async (req, res) => {
   const coffee = await createCoffee(req.body);
   res.status(200).json(coffee);
 });
@@ -37,7 +37,7 @@ coffees.delete("/:id", async (req, res) => {
   }
 });
 
-coffees.put("/:id", checkName, checkBoolean, async (req, res) => {
+coffees.put("/:id", checkName, checkOrigin, checkRoast, checkBoolean, async (req, res) => {
   const { id } = req.params;
   const updatedCoffee = await updateCoffee(id, req.body);
   if (updatedCoffee.id) {
